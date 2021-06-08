@@ -108,6 +108,65 @@ string BST::Modify(const string Title, const int Day, const int Hour) {
 }
 
 
+TreeNode* BST::privateDelete (TreeNode* node, const int Day, const int Hour, bool &flag) {
+
+    if (node == NULL)
+        return node;
+
+    else if (node->compareNodes(Day,Hour) == -1)
+        node->leftChild = this-> privateDelete(node->leftChild, Day, Hour, flag);
+
+    else if (node->compareNodes(Day,Hour) == 1)
+       node->rightChild  = this->privateDelete(node->rightChild, Day, Hour, flag);
+
+    else{
+        if (node->leftChild == NULL && node->rightChild == NULL) {
+            delete node;
+            node = NULL;
+            flag = true;
+            return node;
+        }
+
+        else if (node->leftChild != NULL || node->rightChild != NULL) {
+                if (node->leftChild == NULL) {
+                    TreeNode* tempPtr= node;
+                    node = node->rightChild;
+                    delete tempPtr;
+                    flag = true;
+                    return node; 
+                }
+
+                else {
+                    TreeNode* tempPtr = node;
+                    node = node->leftChild;
+                    delete tempPtr;
+                    flag = true;
+                    return node;
+                }
+        }
+        else{
+            TreeNode* tempPtr = node->rightChild;
+            while (tempPtr->leftChild != NULL)
+                tempPtr = tempPtr->leftChild;
+            
+            node-> meetingTitle = tempPtr-> meetingTitle;
+            node-> meetingDay = tempPtr-> meetingDay;
+            node-> meetingHour = tempPtr-> meetingHour;
+
+            node->rightChild = privateDelete(tempPtr, tempPtr-> meetingDay, tempPtr-> meetingHour, flag);
+            
+        }
+    }
+    return node;
+
+
+}
+
 bool BST::Delete(const int Day, const int Hour) {
+
+    bool flag = false;
+
+    this-> privateDelete(Root,Day, Hour, flag);
+    return flag;
     
 }

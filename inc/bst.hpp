@@ -18,12 +18,12 @@ public:
 
 };
 
-
 class BST {
 private:
     TreeNode* Root;
     TreeNode* recursiveInsert(TreeNode* node, const string Title, const int Day, const int Hour, bool &flag);
     TreeNode* privateSearch (const int Day, const int Hour);
+    TreeNode* privateDelete (TreeNode* node, const int Day, const int Hour, bool &flag);
 public:
     BST();
     bool    isEmpty()  const;
