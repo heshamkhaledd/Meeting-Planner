@@ -24,6 +24,7 @@ private:
     TreeNode* recursiveInsert(TreeNode* node, const string Title, const int Day, const int Hour, bool &flag);
     TreeNode* privateSearch (const int Day, const int Hour);
     TreeNode* privateDelete (TreeNode* node, const int Day, const int Hour, bool &flag);
+    TreeNode* recursivePrint (TreeNode* node);
 public:
     BST();
     bool    isEmpty()  const;

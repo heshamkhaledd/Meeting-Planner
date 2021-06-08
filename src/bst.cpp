@@ -127,7 +127,7 @@ TreeNode* BST::privateDelete (TreeNode* node, const int Day, const int Hour, boo
             return node;
         }
 
-        else if (node->leftChild != NULL || node->rightChild != NULL) {
+        else if (node->leftChild == NULL || node->rightChild == NULL) {
                 if (node->leftChild == NULL) {
                     TreeNode* tempPtr= node;
                     node = node->rightChild;
@@ -146,20 +146,22 @@ TreeNode* BST::privateDelete (TreeNode* node, const int Day, const int Hour, boo
         }
         else{
             TreeNode* tempPtr = node->rightChild;
-            while (tempPtr->leftChild != NULL)
+
+            while (tempPtr->leftChild != NULL && tempPtr->leftChild->leftChild != NULL)
                 tempPtr = tempPtr->leftChild;
+
             
+            TreeNode* tempPtrParent = tempPtr;
+            tempPtr = tempPtr->leftChild;
+
             node-> meetingTitle = tempPtr-> meetingTitle;
             node-> meetingDay = tempPtr-> meetingDay;
             node-> meetingHour = tempPtr-> meetingHour;
-
-            node->rightChild = privateDelete(tempPtr, tempPtr-> meetingDay, tempPtr-> meetingHour, flag);
             
+            tempPtrParent->leftChild = privateDelete(tempPtr, tempPtr-> meetingDay, tempPtr-> meetingHour, flag);
         }
     }
     return node;
-
-
 }
 
 bool BST::Delete(const int Day, const int Hour) {
@@ -168,5 +170,8 @@ bool BST::Delete(const int Day, const int Hour) {
 
     this-> privateDelete(Root,Day, Hour, flag);
     return flag;
-    
+}
+
+void BST::Print() {
+    recursivePrint(Root);
 }
