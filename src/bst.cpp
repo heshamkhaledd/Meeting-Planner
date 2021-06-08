@@ -172,6 +172,19 @@ bool BST::Delete(const int Day, const int Hour) {
     return flag;
 }
 
+void BST::recursivePrint(TreeNode* node) {
+    if (node == NULL)
+        return;
+
+    recursivePrint(node->leftChild);
+    cout<<node->meetingTitle << " " << node->meetingDay << " " << node->meetingHour << endl;
+    recursivePrint(node->rightChild);
+
+}
 void BST::Print() {
+    if(this->isEmpty()){
+        cout<<"Empty Planner"<<endl;
+        return;
+    }
     recursivePrint(Root);
 }
