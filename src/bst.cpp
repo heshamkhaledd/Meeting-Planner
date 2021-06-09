@@ -11,6 +11,20 @@ BST::BST() {
         this->Root = NULL;
 }
 
+void BST::recursiveDestroy(TreeNode* node)
+{
+    if (node != NULL){
+        recursiveDestroy(node->leftChild);
+        recursiveDestroy(node->rightChild);
+        delete node;
+    }
+}
+
+BST::~BST()
+{
+    recursiveDestroy(Root);
+}
+
 bool BST::isEmpty() const {
     return (this-> Root == NULL ? true : false);
 }
@@ -57,7 +71,7 @@ TreeNode* BST::recursiveInsert(TreeNode* node, const string Title, const int Day
     return node;
 }
 
-bool BST::Insert(const string Title, const int Day, const int Hour) {
+string BST::Insert(const string Title, const int Day, const int Hour) {
 
     bool flag = false;
     if (Root == NULL)
@@ -65,7 +79,10 @@ bool BST::Insert(const string Title, const int Day, const int Hour) {
     else
         recursiveInsert(Root, Title, Day, Hour, flag);
 
-    return flag;
+    if (flag)
+        return ("");
+    else
+        return ("Conflict " + to_string(Day) + " " + to_string(Hour));
 }
 
 TreeNode* BST::privateSearch (const int Day, const int Hour) {
@@ -92,7 +109,7 @@ string BST::Search(const int Day, const int Hour) {
         if (searchPtr == NULL)
             return ("Empty " + to_string(Day) + " " + to_string(Hour));
         else
-            return searchPtr->meetingTitle;
+            return ("\""+ searchPtr->meetingTitle + "\"");
     }
 }
 
@@ -101,7 +118,7 @@ string BST::Modify(const string Title, const int Day, const int Hour) {
     TreeNode * searchPtr = this-> privateSearch(Day,Hour);
     if (searchPtr != NULL){
             searchPtr->meetingTitle = Title;
-            return(to_string(searchPtr->meetingDay)+ " " + to_string(searchPtr->meetingHour));
+            return("");
     }
     else
         return ("Empty " + to_string(Day) + " " + to_string(Hour));
@@ -119,7 +136,7 @@ TreeNode* BST::privateDelete (TreeNode* node, const int Day, const int Hour, boo
     else if (node->compareNodes(Day,Hour) == 1)
        node->rightChild  = this->privateDelete(node->rightChild, Day, Hour, flag);
 
-    else{
+    else if(node->compareNodes(Day,Hour) == 0){
         if (node->leftChild == NULL && node->rightChild == NULL) {
             delete node;
             node = NULL;
@@ -164,12 +181,15 @@ TreeNode* BST::privateDelete (TreeNode* node, const int Day, const int Hour, boo
     return node;
 }
 
-bool BST::Delete(const int Day, const int Hour) {
+string BST::Delete(const int Day, const int Hour) {
 
     bool flag = false;
 
     this-> privateDelete(Root,Day, Hour, flag);
-    return flag;
+    if (flag)
+        return ("");
+    else
+        return ("Empty " + to_string(Day) + " " + to_string(Hour));
 }
 
 void BST::recursivePrint(TreeNode* node) {
@@ -177,7 +197,7 @@ void BST::recursivePrint(TreeNode* node) {
         return;
 
     recursivePrint(node->leftChild);
-    cout<<node->meetingTitle << " " << node->meetingDay << " " << node->meetingHour << endl;
+    cout<<"\""<< node->meetingTitle <<"\""<< " " << node->meetingDay << " " << node->meetingHour << endl;
     recursivePrint(node->rightChild);
 
 }

@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 #include <assert.h>
+#include <fstream>
+#include <sstream>
+
 using namespace std;
 
 class TreeNode {
@@ -25,11 +28,13 @@ private:
     TreeNode* privateSearch (const int Day, const int Hour);
     TreeNode* privateDelete (TreeNode* node, const int Day, const int Hour, bool &flag);
     void recursivePrint (TreeNode* node);
+    void recursiveDestroy(TreeNode* node);
 public:
     BST();
+    ~BST();
     bool    isEmpty()  const;
-    bool    Insert(string Title, int Day, int Hour);
-    bool    Delete(const int  Day, const int Hour);
+    string  Insert(string Title, int Day, int Hour);
+    string  Delete(const int  Day, const int Hour);
     string  Search(const int Day, const int Hour);
     string  Modify(const string Title, const int Day, const int Hour);
     void    Print();
