@@ -1,0 +1,16 @@
+ADD "Lunch" 10 16
+ADD "Breakfast" 10 7
+ADD "Study" 10 17
+ADD "Study" 10 8
+ADD "Workout" 10 14
+ADD "watch @ film" 10 20
+Print
+Modify "Read a book" 10 20
+ADD "Sleep" 10 2.5
+Print
+MOD "Read a book" 10 20
+ADD "Sleep" 10 21
+Print
+DEL 10 20
+Print
+ADD meeting 11 10

@@ -1,0 +1,18 @@
+Print
+ADD "Math" 5 10
+ADD "Physics" 4 2
+ADD "Electronics" 10 10
+ADD "Computer3" 1 0
+ADD "Comm1" 360 23
+ADD "Sport" 5 20
+ADD "Dentist" 3 10
+ADD "English class" 10 10
+Print
+DEL 10 10
+MOD "Communications_1" 360 23
+ADD "Library" r 20
+ADD "English class" 10 10
+Print
+ADD "Library" 8 20
+Find 4 2
+Print

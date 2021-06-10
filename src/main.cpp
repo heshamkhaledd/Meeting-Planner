@@ -13,9 +13,15 @@ bool cmdFlag = false;
 bool titleFlag = false;
 bool dayFlag = false;
 bool hourFlag = false;
+bool argFlag = false;
 
 int main(int argc, char* argv[]) {
 
+    if (argc != 2){
+        cout << "Invalid arguments" << endl;
+        return 0;
+    }
+    
     inFile.open(argv[1], std::ifstream::in);
     if (inFile.is_open()) {
         readInputFile();
@@ -69,10 +75,12 @@ void readInputFile() {
                     hourFlag = true;
             }
 
-            if (!(dayFlag) && (stoi(Day) < 1 || stoi(Day) > 365)) dayFlag = true;
-            if (!(hourFlag) && (stoi(Hour) < 0 || stoi(Hour) > 23)) hourFlag = true;
+            if (Title == "" || Day == "" || Hour == "") argFlag = true;
 
-            if (dayFlag || hourFlag || titleFlag) {
+            if (!(argFlag) && !(dayFlag) && (stoi(Day) < 1 || stoi(Day) > 365)) dayFlag = true;
+            if (!(argFlag) && !(hourFlag) && (stoi(Hour) < 0 || stoi(Hour) > 23)) hourFlag = true;
+
+            if (dayFlag || hourFlag || titleFlag || argFlag) {
                 printErrors();
                 continue;
             }
@@ -105,11 +113,13 @@ void readInputFile() {
                         hourFlag = true;
                 }
 
-                if (!(dayFlag) && (stoi(Day) < 1 || stoi(Day) > 365)) dayFlag = true;
+                if (Title == "" || Day == "" || Hour == "") argFlag = true;
 
-                if (!(hourFlag) && (stoi(Hour) < 0 || stoi(Hour) > 23)) hourFlag = true;
+                if (!(argFlag) && !(dayFlag) && (stoi(Day) < 1 || stoi(Day) > 365)) dayFlag = true;
 
-                if (dayFlag || hourFlag) {
+                if (!(argFlag) && !(hourFlag) && (stoi(Hour) < 0 || stoi(Hour) > 23)) hourFlag = true;
+
+                if (dayFlag || hourFlag || argFlag) {
                     printErrors();
                     continue;
                 }
@@ -138,19 +148,23 @@ void readInputFile() {
 }
 
 void printErrors() {
+
+    if (argFlag)
+        cout << "Invalid arguments" << endl;
     if (cmdFlag)
         cout << "Invalid command" << endl;
-    if (titleFlag)
+    if (!(argFlag) && titleFlag)
         cout << "Invalid title" << endl;
-    if (dayFlag)
+    if (!(argFlag) && dayFlag)
         cout << "Invalid day" << endl;
-    if (hourFlag)
+    if (!(argFlag) && hourFlag)
         cout << "Invalid hour" << endl;
 
     cmdFlag = false;
     titleFlag = false;
     dayFlag = false;
     hourFlag = false;
+    argFlag = false;
     Title = "";
     Day = "";
     Hour = "";
