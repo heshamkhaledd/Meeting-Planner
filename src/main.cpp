@@ -16,7 +16,7 @@ bool hourFlag = false;
 
 int main(int argc, char* argv[]) {
 
-    inFile.open("Input.txt", std::ifstream::in);
+    inFile.open(argv[1], std::ifstream::in);
     if (inFile.is_open()) {
         readInputFile();
     }
@@ -127,6 +127,7 @@ void readInputFile() {
         else {
             cmdFlag = true;
             printErrors();
+            continue;
         }
 
         Title = "";
