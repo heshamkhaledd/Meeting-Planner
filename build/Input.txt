@@ -1,18 +1,16 @@
+ADD "Lunch" 10 16
+ADD "Breakfast" 10 7
+ADD "Study" 10 17
+ADD "Study" 10 8
+ADD "Workout" 10 14
+ADD "watch @ film" 10 20
 Print
-ADD "Math" 5 10
-ADD "Physics" 4 2
-ADD "Electronics" 10 10
-ADD "Computer3" 1 0
-ADD "Comm1" 360 23
-ADD "Sport" 5 20
-ADD "Dentist" 3 10
-ADD "English class" 10 10
+Modify "Read a book" 10 20
+ADD "Sleep" 10 2.5
 Print
-DEL 10 10
-MOD "Communications_1" 360 23
-ADD "Library" r 20
-ADD "English class" 10 10
+MOD "Read a book" 10 20
+ADD "Sleep" 10 21
 Print
-ADD "Library" 8 20
-Find 4 2
+DEL 10 20
 Print
+ADD meeting 11 10
