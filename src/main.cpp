@@ -46,6 +46,20 @@ void readInputFile (){
                     stream2>>Day;
                     stream2>>Hour;
 
+                for (int Idx = 0 ; Idx < (int)Day.size() ; Idx++) {
+                    if (!(isdigit(Day[Idx])))
+                        dayFlag = true;
+                }
+                for (int Idx = 0 ; Idx < (int)Hour.size() ; Idx++) {
+                    if (!(isdigit(Hour[Idx])))
+                        hourFlag = true;
+                }
+
+                if (dayFlag || hourFlag){
+                    printErrors();
+                    continue;
+                }
+
                 if (stoi(Day) < 1 || stoi(Day) > 365) dayFlag = true;
                 if (stoi(Hour) < 0 || stoi(Hour) > 23) hourFlag = true;
                 
@@ -74,6 +88,16 @@ void readInputFile (){
                 else{
                     stream>>Day;
                     stream>>Hour;
+
+                    for (int Idx = 0 ; Idx < (int)Day.size() ; Idx++) {
+                        if (!(isdigit(Day[Idx])))
+                            dayFlag = true;
+                        }
+                    for (int Idx = 0 ; Idx < (int)Hour.size() ; Idx++) {
+                        if (!(isdigit(Hour[Idx])))
+                            hourFlag = true;
+                        }
+                        
                     if (stoi(Day) < 1 || stoi(Day) > 365) dayFlag = true;
                         
                     if (stoi(Hour) < 0 || stoi(Hour) > 23) hourFlag = true;

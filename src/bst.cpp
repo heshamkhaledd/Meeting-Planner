@@ -163,19 +163,23 @@ TreeNode* BST::privateDelete (TreeNode* node, const int Day, const int Hour, boo
         }
         else{
             TreeNode* tempPtr = node->rightChild;
+            TreeNode* tempPtrParent = NULL;
+            while (tempPtr->leftChild != NULL) {
 
-            while (tempPtr->leftChild != NULL && tempPtr->leftChild->leftChild != NULL)
+                if (tempPtr->leftChild->leftChild == NULL)
+                    tempPtrParent = tempPtr;
+
                 tempPtr = tempPtr->leftChild;
+            }
 
-            
-            TreeNode* tempPtrParent = tempPtr;
-            tempPtr = tempPtr->leftChild;
+            node->meetingTitle = tempPtr->meetingTitle;
+            node->meetingDay = tempPtr->meetingDay;
+            node->meetingHour = tempPtr->meetingHour;
 
-            node-> meetingTitle = tempPtr-> meetingTitle;
-            node-> meetingDay = tempPtr-> meetingDay;
-            node-> meetingHour = tempPtr-> meetingHour;
-            
-            tempPtrParent->leftChild = privateDelete(tempPtr, tempPtr-> meetingDay, tempPtr-> meetingHour, flag);
+            if (tempPtrParent == NULL)
+                node->rightChild = privateDelete(tempPtr, tempPtr->meetingDay, tempPtr->meetingHour, flag);
+            else
+                tempPtrParent->leftChild = privateDelete(tempPtr, tempPtr->meetingDay, tempPtr->meetingHour, flag);
         }
     }
     return node;
