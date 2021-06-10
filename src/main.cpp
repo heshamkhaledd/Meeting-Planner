@@ -14,6 +14,7 @@ bool titleFlag = false;
 bool dayFlag = false;
 bool hourFlag = false;
 bool argFlag = false;
+bool tempFlag = false;
 
 int main(int argc, char* argv[]) {
 
@@ -43,9 +44,12 @@ void readInputFile() {
                 firstQuoteIdx++;
                 if (secondQuoteIdx != (int)string::npos)
                     Title = Line.substr(firstQuoteIdx, secondQuoteIdx - firstQuoteIdx);
-                else titleFlag = true;
             }
-            else titleFlag = true;
+            else {
+                stream >> Title;
+                tempFlag = true;
+                titleFlag = true;
+            }
 
             int counter = 0;
             for (int Idx = 0; Idx < (int)Title.size(); Idx++) {
@@ -53,8 +57,11 @@ void readInputFile() {
             }
             if (counter != 0) titleFlag = true;
 
-            if ((firstQuoteIdx == (int)string::npos && secondQuoteIdx == (int)string::npos) || (firstQuoteIdx-1 == secondQuoteIdx)) {
-                stream >> Day;
+            if ((firstQuoteIdx == (int)string::npos && secondQuoteIdx == (int)string::npos) || (firstQuoteIdx - 1 == secondQuoteIdx)) {
+                if (!tempFlag) {
+                    stream >> Day;
+                    tempFlag = false;
+                }
                 stream >> Day;
                 stream >> Hour;
                 titleFlag = true;
@@ -75,7 +82,16 @@ void readInputFile() {
                     hourFlag = true;
             }
 
-            if (Title == "" || Day == "" || Hour == "") argFlag = true;
+            int counter2 = 0;
+            if (Title != "") counter2++;
+            if (Day != "") counter2++;
+            if (Hour != "") counter2++;
+            if (counter2 != 3) {
+                argFlag = true;
+                counter2 = 0;
+                printErrors();
+                continue;
+            }
 
             if (!(argFlag) && !(dayFlag) && (stoi(Day) < 1 || stoi(Day) > 365)) dayFlag = true;
             if (!(argFlag) && !(hourFlag) && (stoi(Hour) < 0 || stoi(Hour) > 23)) hourFlag = true;
@@ -87,7 +103,7 @@ void readInputFile() {
 
             if (CMD == "ADD") {
                 Output = myBST.Insert(Title, stoi(Day), stoi(Hour));
-                if (Output != "") cout << Output << endl ;
+                if (Output != "") cout << Output << endl;
             }
             else if (CMD == "MOD") {
                 Output = myBST.Modify(Title, stoi(Day), stoi(Hour));
@@ -113,7 +129,7 @@ void readInputFile() {
                         hourFlag = true;
                 }
 
-                if (Title == "" || Day == "" || Hour == "") argFlag = true;
+                if (Day == "" || Hour == "") argFlag = true;
 
                 if (!(argFlag) && !(dayFlag) && (stoi(Day) < 1 || stoi(Day) > 365)) dayFlag = true;
 
@@ -135,11 +151,15 @@ void readInputFile() {
             }
         }
         else {
-            cmdFlag = true;
-            printErrors();
-            continue;
+            if (CMD == "") continue;
+            else{
+                cmdFlag = true;
+                printErrors();
+                continue;
+            }
         }
 
+        CMD = "";
         Title = "";
         Day = "";
         Hour = "";
@@ -153,7 +173,7 @@ void printErrors() {
         cout << "Invalid arguments" << endl;
     if (cmdFlag)
         cout << "Invalid command" << endl;
-    if (!(argFlag) && titleFlag)
+    if (!argFlag && titleFlag)
         cout << "Invalid title" << endl;
     if (!(argFlag) && dayFlag)
         cout << "Invalid day" << endl;
@@ -165,6 +185,8 @@ void printErrors() {
     dayFlag = false;
     hourFlag = false;
     argFlag = false;
+    tempFlag = false;
+    CMD = "";
     Title = "";
     Day = "";
     Hour = "";
